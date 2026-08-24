@@ -1262,7 +1262,7 @@
             }
         ];
 
-                // HUMOROUS DESCRIPTIONS AND JOKES FOR PLAYSTYLES
+        // HUMOROUS DESCRIPTIONS AND JOKES FOR PLAYSTYLES
         const styleDescriptions = {
             precision: `
                 <strong>Precision Marksman:</strong> You truly believe that monastic discipline and pixel-perfect aim win games. While your teammates are jumping around the map like caffeinated rabbits, you calmly hold lines of sight, control recoil down to 0.001mm, and methodically clear the lobby. You don't move slow—you "tactically advance."<br><br>
@@ -1298,6 +1298,10 @@
                 opt.textContent = gun;
                 weaponSelect.appendChild(opt);
             });
+
+            if (weaponSelect.options.length > 0) {
+                weaponSelect.selectedIndex = 0;
+            }
         }
 
         // 7. GENERUJE A VYKRESLÍ LOADOUT
@@ -1428,7 +1432,6 @@
                 }
             }
 
-            // Nájdenie štýlu s najvyšším skóre
             let topStyle = 'precision';
             let maxScore = -1;
 
@@ -1439,7 +1442,6 @@
                 }
             }
 
-            // Vykreslenie výsledku
             document.getElementById('q-style-title').innerText = topStyle.toUpperCase();
             document.getElementById('q-style-desc').innerHTML = styleDescriptions[topStyle] || "";
 
@@ -1456,4 +1458,3 @@
     </script>
 </body>
 </html>
-
