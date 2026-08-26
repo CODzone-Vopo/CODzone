@@ -13,6 +13,7 @@
             --card-bg: #141923;
             --accent-turquoise: #00c4b4;
             --accent-gold: #d4af37;
+            --accent-red: #ff3333;
             --text-white: #ffffff;
             --text-muted: #8a94a6;
             --border-color: #202736;
@@ -26,6 +27,26 @@
         .header { text-align: center; margin-bottom: 15px; padding: 10px 0; }
         .logo-img { max-width: 300px; height: auto; margin-bottom: 5px; }
         
+        /* Died Button */
+        .btn-died-container { text-align: center; margin-bottom: 20px; }
+        .btn-died {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 2px solid #b30000;
+            background: linear-gradient(135deg, #ff3333, #b30000);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);
+        }
+        .btn-died:active { transform: scale(0.98); }
+        .btn-died:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+
         /* Navigation Tabs */
         .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
         .tab-btn { flex: 1; padding: 12px 5px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-muted); font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.2s; text-align: center; }
@@ -87,6 +108,62 @@
         .perk-name { color: var(--text-white); font-size: 15px; }
         .perk-desc-list { list-style: none; padding-left: 0; margin-top: 5px; }
         .perk-desc-list li { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+
+        /* Modal / Popup Box */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 25px 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.5);
+            animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal-title {
+            color: var(--accent-red);
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .modal-text {
+            color: var(--text-white);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-btn {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .modal-btn:hover { background: #cc0000; }
     </style>
 </head>
 <body>
@@ -97,6 +174,11 @@
         <div class="header">
             <img src="images/logo.png" alt="CODzone Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
             <h1 id="alt-logo" style="display:none; color: var(--accent-turquoise); font-size: 28px;">COD<span style="color: var(--accent-gold);">ZONE</span></h1>
+        </div>
+
+        <!-- I JUST DIED BUTTON -->
+        <div class="btn-died-container">
+            <button class="btn-died" onclick="showDiedReason()">!I Just Died!</button>
         </div>
 
         <!-- NAVIGATION TABS -->
@@ -200,7 +282,113 @@
 
     </div>
 
+    <!-- MODAL POPUP PRE DIED REASONS -->
+    <div id="died-modal" class="modal-overlay" onclick="closeDiedModal(event)">
+        <div class="modal-card">
+            <div class="modal-title">⚠️ DEATH EXCUSE ⚠️</div>
+            <div id="died-text" class="modal-text"></div>
+            <button class="modal-btn" onclick="closeDiedModalForce()">OK, NEXT GAME</button>
+        </div>
+    </div>
+
     <script>
+        // LIST OF DIED RESPONSES
+        const diedResponses = [
+            "100% wallhack, he saw you through 3 buildings.",
+            "That's not aim, that's a Cronus. Report and move on.",
+            "He had 12 ping, you had 88. Math doesn't lie.",
+            "Classic lag compensation. He shot you before you peeked.",
+            "Pay-to-win skin, +50% damage. Nothing you could do.",
+            "Activision timing™. He saw you 2 seconds earlier on his screen.",
+            "TikTok cheater, 100%. 0.2 KD but today his soft-aim is ON.",
+            "His bullets bend. Yours don't. Unfair.",
+            "His controller has aim assist, yours has aim resist.",
+            "You were dead on his screen before you even dropped.",
+            "That's not a player, that's an AI bot with aimbot. Report.",
+            "He was stream-sniping your minimap.",
+            "SBMM found a pro lobby just for you. Lucky!",
+            "Your game lagged, his didn't. Classic.",
+            "He had a headset that costs more than your PC.",
+            "The sun was in your eyes. And in your monitor.",
+            "Your bullets went on vacation.",
+            "He has 240Hz, you have 60Hz. You saw him in the past.",
+            "That was a sponsored kill by Shadowban Inc.",
+            "His internet is from NASA. Yours is from “Hope it will load”",
+            "Ricochet anti-cheat was sleeping. Again.",
+            "He definitely saw you on UAV even though you had Ghost.",
+            "That wasn't bad, that was... creative. Very creative.",
+            "Even a bot would have played that better. But bots don't have your cool skin.",
+            "Your KD just did a backflip.",
+            "That was a tactical death. You lured him into a trap... that doesn't exist.",
+            "You died as a hero. A dumb hero, but a hero.",
+            "That was just a warm-up death. Now it starts!",
+            "My grandma has better movement, and she's been AFK for 5 years.",
+            "You aimed everywhere except on him. Impressive spread.",
+            "You missed so badly the game felt bad for you.",
+            "That peek was so slow, he had time to make coffee.",
+            "Bro, you couldn't hit water if you fell out of a boat.",
+            "Your aim today is on vacation. It'll be back tomorrow. Maybe.",
+            "You got outplayed by your own shadow.",
+            "That wasn't a gunfight, that was a free kill delivery service.",
+            "If camping was a crime, you'd be innocent today.",
+            "You pushed like an Aggressive rusher but aimed like a Camper.",
+            "Your aim assist just left the party.",
+            "That death was sponsored by 0% accuracy.",
+            "Even the killcam was embarrassed to show that.",
+            "Where was your team? Oh right, looting. Classic randoms.",
+            "Randoms... what can I say. You're playing 1v4 every game.",
+            "You were too good, the game had to nerf you manually.",
+            "Your squad left you to die. Again.",
+            "Your mic was on, you were breathing too loud, he heard you.",
+            "You were carrying the team too hard, your back hurt.",
+            "You were checking your phone. Be honest.",
+            "You were playing with socks on. Never play with socks on.",
+            "That was a strategic death to confuse the enemy. They are confused now.",
+            "You died so your team could live. They didn't. But you tried.",
+            "On the bright side, you don't have to worry about ammo anymore.",
+            "That death was so fast, even the server didn't see it.",
+            "You just gave him false confidence. Now he'll push and die.",
+            "One more game and you'll beam him. Promise.",
+            "You didn't die, you just went to spectate your randoms' failure.",
+            "Take a deep breath. 3 seconds. Now hit Play Again and show them.",
+            "If you camped like a normal Tactical Anchor, you'd still be alive!",
+            "You just invented a new way to die. Innovator!",
+            "Respawn doesn't exist, but shame does. Welcome.",
+            "GG GO NEXT!",
+            "He was pre-aiming that corner since 2019.",
+            "Take this as an opportunity to improve at Fortnite.",
+            "Your bullets did emotional damage only.",
+            "He hit you with 2 bullets, you hit him with your feelings.",
+            "That killcam was in slow motion just to embarrass you.",
+            "Bro has wallhack, aimbot, and Activision's blessing.",
+            "You died on purpose to test if your gulag loading screen works.",
+            "You didn't lose that fight, you just donated your loot to someone in need.",
+            "You're not playing Call of Duty, you're playing \"Carry 3 Randoms\" simulator."
+        ];
+
+        let currentDiedIndex = 0;
+
+        function showDiedReason() {
+            const modal = document.getElementById('died-modal');
+            const textEl = document.getElementById('died-text');
+            
+            textEl.innerText = diedResponses[currentDiedIndex];
+            modal.style.display = 'flex';
+
+            // Posun na ďalšiu odpoveď v poradí
+            currentDiedIndex = (currentDiedIndex + 1) % diedResponses.length;
+        }
+
+        function closeDiedModal(event) {
+            if (event.target.id === 'died-modal') {
+                document.getElementById('died-modal').style.display = 'none';
+            }
+        }
+
+        function closeDiedModalForce() {
+            document.getElementById('died-modal').style.display = 'none';
+        }
+
         // TOP 3 META ZBRANE - Sem stačí vpísať presný názov a kód sám zmení názov, obrázok aj preklik!
         const metaGuns = ["AN-94", "RYDEN 45K", "STRIDER 300"];
 
@@ -1425,7 +1613,6 @@
 
         // PREKLIK Z META DO LOADOUTU
         function selectMetaGun(gunName) {
-            // Nájdeme kategóriu danej zbrane
             let foundCategory = 'ar';
             for (const cat in weaponsDatabase) {
                 if (weaponsDatabase[cat].includes(gunName)) {
@@ -1434,18 +1621,14 @@
                 }
             }
 
-            // Nastavíme kategóriu
             const catSelect = document.getElementById('category');
             catSelect.value = foundCategory;
             
-            // Aktualizujeme zoznam zbraní a nastavíme konkrétnu zbraň
             updateWeaponList();
             document.getElementById('weapon').value = gunName;
 
-            // Skryjeme staré výsledky loadoutu, ak boli zobrazené z predchádzajúceho výberu
             document.getElementById('result').style.display = 'none';
 
-            // Prepne na záložku Loadouts
             switchTab('loadout');
         }
 
@@ -1582,7 +1765,7 @@
             const btn = document.getElementById('quiz-submit-btn');
             if (allAnswered) {
                 btn.disabled = false;
-                btn.innerText = "Find My Playstyle 🎯";
+                btn.innerText = "Calculate Playstyle 🎯";
             } else {
                 btn.disabled = true;
                 btn.innerText = "Complete All Questions";
@@ -1590,39 +1773,38 @@
         }
 
         function calculateQuizResult() {
-            const scores = { precision: 0, aggressive: 0, movement: 0, camping: 0 };
+            const counts = { precision: 0, aggressive: 0, movement: 0, camping: 0 };
 
             for (let i = 0; i < quizQuestions.length; i++) {
-                const val = document.getElementById(`quiz-q-${i}`).value;
-                if (val && scores.hasOwnProperty(val)) {
-                    scores[val]++;
+                const selectedStyle = document.getElementById(`quiz-q-${i}`).value;
+                if (selectedStyle && counts[selectedStyle] !== undefined) {
+                    counts[selectedStyle]++;
                 }
             }
 
-            let topStyle = 'precision';
-            let maxScore = -1;
-
-            for (const style in scores) {
-                if (scores[style] > maxScore) {
-                    maxScore = scores[style];
-                    topStyle = style;
+            let winnerStyle = 'precision';
+            let maxCount = -1;
+            for (const style in counts) {
+                if (counts[style] > maxCount) {
+                    maxCount = counts[style];
+                    winnerStyle = style;
                 }
             }
 
-            document.getElementById('q-style-title').innerText = topStyle.toUpperCase();
-            document.getElementById('q-style-desc').innerHTML = styleDescriptions[topStyle] || "";
+            document.getElementById('q-style-title').innerText = winnerStyle.toUpperCase();
+            document.getElementById('q-style-desc').innerHTML = styleDescriptions[winnerStyle];
 
-            const resultCard = document.getElementById('quiz-result');
-            resultCard.style.display = 'block';
-            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const quizResultCard = document.getElementById('quiz-result');
+            quizResultCard.style.display = 'block';
+            quizResultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // Inicializácia po načítaní HTML
-        document.addEventListener('DOMContentLoaded', () => {
+        // INICIALIZÁCIA PO NAČÍTANÍ STRÁNKY
+        window.onload = function() {
             renderMeta();
             updateWeaponList();
             renderQuiz();
-        });
+        };
     </script>
 </body>
 </html>
