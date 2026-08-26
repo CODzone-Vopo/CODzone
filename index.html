@@ -46,6 +46,16 @@
         .btn-build:active { transform: scale(0.98); }
         .btn-build:disabled { background: #2a3447; color: #5a6578; cursor: not-allowed; transform: none; }
 
+        /* META Cards Styling */
+        .meta-list { display: flex; flex-direction: column; gap: 15px; }
+        .meta-card { background: #1c2331; border: 2px solid var(--accent-gold); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+        .meta-card:active { transform: scale(0.98); }
+        .meta-card:hover { border-color: var(--accent-turquoise); }
+        .meta-title { color: var(--text-white); font-size: 20px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .meta-img-box { background: #0e121a; border-radius: 8px; padding: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color); min-height: 90px; display: flex; align-items: center; justify-content: center; }
+        .meta-img-box img { max-width: 100%; max-height: 100px; object-fit: contain; }
+        .meta-action { color: var(--accent-turquoise); font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
         /* Quiz Specific Styling */
         .quiz-question-block { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         .quiz-question-block:last-child { border-bottom: none; margin-bottom: 10px; }
@@ -91,13 +101,24 @@
 
         <!-- NAVIGATION TABS -->
         <div class="nav-tabs">
-            <button id="tab-loadout-btn" class="tab-btn active" onclick="switchTab('loadout')">Loadouts</button>
+            <button id="tab-meta-btn" class="tab-btn active" onclick="switchTab('meta')">META</button>
+            <button id="tab-loadout-btn" class="tab-btn" onclick="switchTab('loadout')">Loadouts</button>
             <button id="tab-perks-btn" class="tab-btn" onclick="switchTab('perks')">Perks</button>
             <button id="tab-quiz-btn" class="tab-btn" onclick="switchTab('quiz')">Find Your Style</button>
         </div>
 
+        <!-- META SECTION -->
+        <div id="section-meta" class="tab-content active">
+            <div class="card">
+                <div class="section-title" style="margin-bottom: 15px;">TOP META WEAPONS</div>
+                <div id="meta-container" class="meta-list">
+                    <!-- META zbrane sa dopĺňajú automaticky z JavaScriptu -->
+                </div>
+            </div>
+        </div>
+
         <!-- LOADOUT SECTION -->
-        <div id="section-loadout" class="tab-content active">
+        <div id="section-loadout" class="tab-content">
             <div class="card">
                 <label for="category">1. Category:</label>
                 <select id="category" onchange="updateWeaponList()">
@@ -180,12 +201,18 @@
     </div>
 
     <script>
+        // TOP 3 META ZBRANE - Sem stačí vpísať presný názov a kód sám zmení názov, obrázok aj preklik!
+        const metaGuns = ["AN-94", "RYDEN 45K", "SHADOW SK"];
+
         // 1. NAVIGATION BETWEEN TABS
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-            if (tab === 'loadout') {
+            if (tab === 'meta') {
+                document.getElementById('tab-meta-btn').classList.add('active');
+                document.getElementById('section-meta').classList.add('active');
+            } else if (tab === 'loadout') {
                 document.getElementById('tab-loadout-btn').classList.add('active');
                 document.getElementById('section-loadout').classList.add('active');
             } else if (tab === 'perks') {
@@ -1372,7 +1399,57 @@
             `
         };
 
-        // 6. NAČÍTANIE ZBRANÍ PODĽA KATEGÓRIE
+        // 6. NAČÍTANIE A RENDER META KARTIEČOK
+        function renderMeta() {
+            const container = document.getElementById('meta-container');
+            if (!container) return;
+
+            let html = '';
+            metaGuns.forEach(gunName => {
+                const formattedName = gunName.replace(/[^a-zA-Z0-9]/g, '_');
+                const imgPath = `images/weapons/${formattedName}.png`;
+
+                html += `
+                    <div class="meta-card" onclick="selectMetaGun('${gunName}')">
+                        <div class="meta-title">${gunName}</div>
+                        <div class="meta-img-box">
+                            <img src="${imgPath}" alt="${gunName}" onerror="this.src='https://via.placeholder.com/300x100/141923/00c4b4?text=${encodeURIComponent(gunName)}'">
+                        </div>
+                        <div class="meta-action">Open Loadout ➔</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // PREKLIK Z META DO LOADOUTU
+        function selectMetaGun(gunName) {
+            // Nájdeme kategóriu danej zbrane
+            let foundCategory = 'ar';
+            for (const cat in weaponsDatabase) {
+                if (weaponsDatabase[cat].includes(gunName)) {
+                    foundCategory = cat;
+                    break;
+                }
+            }
+
+            // Nastavíme kategóriu
+            const catSelect = document.getElementById('category');
+            catSelect.value = foundCategory;
+            
+            // Aktualizujeme zoznam zbraní a nastavíme konkrétnu zbraň
+            updateWeaponList();
+            document.getElementById('weapon').value = gunName;
+
+            // Skryjeme staré výsledky loadoutu, ak boli zobrazené z predchádzajúceho výberu
+            document.getElementById('result').style.display = 'none';
+
+            // Prepne na záložku Loadouts
+            switchTab('loadout');
+        }
+
+        // 7. NAČÍTANIE ZBRANÍ PODĽA KATEGÓRIE
         function updateWeaponList() {
             const categoryEl = document.getElementById('category');
             const weaponSelect = document.getElementById('weapon');
@@ -1394,7 +1471,7 @@
             }
         }
 
-        // 7. GENERUJE A VYKRESLÍ LOADOUT
+        // 8. GENERUJE A VYKRESLÍ LOADOUT
         function generateLoadout() {
             const selectedGun = document.getElementById('weapon').value;
             const selectedStyle = document.getElementById('style').value;
@@ -1435,7 +1512,7 @@
             resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // 8. GENERUJE A VYKRESLÍ PERKY
+        // 9. GENERUJE A VYKRESLÍ PERKY
         function generatePerks() {
             const selectedStyle = document.getElementById('perk-style').value;
             document.getElementById('p-style-title').innerText = selectedStyle.toUpperCase();
@@ -1470,7 +1547,7 @@
             resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // 9. REKREÁCIA A VYHODNOTENIE "FIND YOUR STYLE" KVÍZU
+        // 10. REKREÁCIA A VYHODNOTENIE "FIND YOUR STYLE" KVÍZU
         function renderQuiz() {
             const container = document.getElementById('quiz-questions-container');
             if (!container) return;
@@ -1542,6 +1619,7 @@
 
         // Inicializácia po načítaní HTML
         document.addEventListener('DOMContentLoaded', () => {
+            renderMeta();
             updateWeaponList();
             renderQuiz();
         });
