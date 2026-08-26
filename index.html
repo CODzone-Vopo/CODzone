@@ -366,17 +366,24 @@
             "You're not playing Call of Duty, you're playing \"Carry 3 Randoms\" simulator."
         ];
 
-        let currentDiedIndex = 0;
+        // Načítanie uloženej pozície z localStorage (ak neexistuje, začne od 0)
+        let currentDiedIndex = parseInt(localStorage.getItem('codzone_died_index')) || 0;
 
         function showDiedReason() {
             const modal = document.getElementById('died-modal');
             const textEl = document.getElementById('died-text');
             
+            // Ošetrenie pre prípad, že by index presiahol dĺžku počiatočného poľa
+            if (currentDiedIndex >= diedResponses.length) {
+                currentDiedIndex = 0;
+            }
+
             textEl.innerText = diedResponses[currentDiedIndex];
             modal.style.display = 'flex';
 
-            // Posun na ďalšiu odpoveď v poradí
+            // Posun na ďalšiu odpoveď v poradí a uloženie do prehliadača
             currentDiedIndex = (currentDiedIndex + 1) % diedResponses.length;
+            localStorage.setItem('codzone_died_index', currentDiedIndex);
         }
 
         function closeDiedModal(event) {
@@ -1730,7 +1737,7 @@
             resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        // 10. REKREÁCIA A VYHODNOTENIE "FIND YOUR STYLE" KVÍZU
+        // 10. GENERUJE A VYHODNOCUJE QUIZ
         function renderQuiz() {
             const container = document.getElementById('quiz-questions-container');
             if (!container) return;
@@ -1742,8 +1749,8 @@
                         <span class="quiz-q-num">Question ${index + 1} of 10</span>
                         <div class="quiz-q-text">${qObj.q}</div>
                         <select id="quiz-q-${index}" onchange="checkQuizCompletion()">
-                            <option value="" disabled selected>-- Select an answer --</option>
-                            ${qObj.options.map((opt, oIdx) => `<option value="${opt.style}">${opt.text}</option>`).join('')}
+                            <option value="" disabled selected>Select your answer...</option>
+                            ${qObj.options.map(opt => `<option value="${opt.style}">${opt.text}</option>`).join('')}
                         </select>
                     </div>
                 `;
@@ -1761,42 +1768,34 @@
                     break;
                 }
             }
-
-            const btn = document.getElementById('quiz-submit-btn');
-            if (allAnswered) {
-                btn.disabled = false;
-                btn.innerText = "Calculate Playstyle 🎯";
-            } else {
-                btn.disabled = true;
-                btn.innerText = "Complete All Questions";
-            }
+            document.getElementById('quiz-submit-btn').disabled = !allAnswered;
         }
 
         function calculateQuizResult() {
             const counts = { precision: 0, aggressive: 0, movement: 0, camping: 0 };
-
+            
             for (let i = 0; i < quizQuestions.length; i++) {
-                const selectedStyle = document.getElementById(`quiz-q-${i}`).value;
-                if (selectedStyle && counts[selectedStyle] !== undefined) {
-                    counts[selectedStyle]++;
+                const selected = document.getElementById(`quiz-q-${i}`).value;
+                if (selected && counts.hasOwnProperty(selected)) {
+                    counts[selected]++;
                 }
             }
 
-            let winnerStyle = 'precision';
+            let winningStyle = 'precision';
             let maxCount = -1;
             for (const style in counts) {
                 if (counts[style] > maxCount) {
                     maxCount = counts[style];
-                    winnerStyle = style;
+                    winningStyle = style;
                 }
             }
 
-            document.getElementById('q-style-title').innerText = winnerStyle.toUpperCase();
-            document.getElementById('q-style-desc').innerHTML = styleDescriptions[winnerStyle];
+            document.getElementById('q-style-title').innerText = winningStyle.toUpperCase();
+            document.getElementById('q-style-desc').innerHTML = styleDescriptions[winningStyle];
 
-            const quizResultCard = document.getElementById('quiz-result');
-            quizResultCard.style.display = 'block';
-            quizResultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const resultCard = document.getElementById('quiz-result');
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         // INICIALIZÁCIA PO NAČÍTANÍ STRÁNKY
