@@ -28,7 +28,7 @@
         .logo-img { max-width: 300px; height: auto; margin-bottom: 5px; }
         
         /* Died Button */
-        .btn-died-container { text-align: center; margin-bottom: 20px; }
+        .btn-died-container { text-align: center; margin-bottom: 15px; }
         .btn-died {
             width: 100%;
             padding: 14px;
@@ -46,6 +46,31 @@
         }
         .btn-died:active { transform: scale(0.98); }
         .btn-died:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+
+        /* Daily Fact Card */
+        .daily-fact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+        .daily-fact-title {
+            color: var(--accent-gold);
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .daily-fact-text {
+            color: var(--text-white);
+            font-size: 13px;
+            line-height: 1.5;
+            font-family: sans-serif;
+            font-weight: normal;
+        }
 
         /* Navigation Tabs */
         .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
@@ -181,6 +206,12 @@
             <button class="btn-died" onclick="showDiedReason()">!I Just Died!</button>
         </div>
 
+        <!-- DAILY FACT CARD -->
+        <div class="daily-fact-card">
+            <div class="daily-fact-title">💡 DAILY COD FACT 💡</div>
+            <div id="daily-fact-text" class="daily-fact-text">Loading daily fact...</div>
+        </div>
+
         <!-- NAVIGATION TABS -->
         <div class="nav-tabs">
             <button id="tab-meta-btn" class="tab-btn active" onclick="switchTab('meta')">META</button>
@@ -292,6 +323,130 @@
     </div>
 
     <script>
+        // LIST OF DAILY COD FACTS
+        const dailyFacts = [
+            "The \"MoH Killer\" Codename: Before it had an official title, the original 2003 Call of Duty was internally codenamed \"MOH Killer\" (Medal of Honor Killer) by Infinity Ward developers, as many of them had just left 2015, Inc. after making Medal of Honor: Allied Assault.",
+            "Captain Price’s WWII Roots: Captain Price originally debuted in the 1944-set original Call of Duty (2003) as a British commando before being reimagined for the Modern Warfare sub-series.",
+            "Health Packs in CoD 1: Unlike modern titles, health did not automatically regenerate in the 2003 original; players had to hunt for health packs scattered around the maps.",
+            "Shipment Was Born by Accident: The iconic map Shipment was originally designed purely as a tiny internal testing space for combat mechanics before developers accidentally left it coded into CoD 4.",
+            "The Cancelled Roman CoD: Activision once funded a prototype called Call of Duty: Roman Warfare, where players would fight in the first-person perspective as a Roman legionnaire.",
+            "Craig Fairbrass' Voice Roles: Actor Craig Fairbrass voiced two major iconic characters across the original Modern Warfare trilogy—Gaz (CoD4) and Ghost (MW2)—and provided additional voice work for Sgt. Wallcroft in MW3.",
+            "Ghost’s Real Face: In the game files of Modern Warfare II (2022), unmasking Ghost reveals a fully modeled character face rendered under his balaclava based on his voice actor, Samuel Roukin.",
+            "Gary Oldman as Reznov: Oscar-winning actor Gary Oldman voiced Viktor Reznov in both World at War and Black Ops 1.",
+            "Ice Cube in Black Ops: Rapper Ice Cube voiced the operative Joseph Bowman in the original Black Ops campaign.",
+            "Kit Harington as a Villain: Game of Thrones star Kit Harington played the main antagonist, Salen Kotch, in Call of Duty: Infinite Warfare.",
+            "James C. Burns and Lore: James C. Burns, who voiced Frank Woods in BO1 and BO2, actively ran a YouTube channel answering fan lore questions for years.",
+            "Nazi Zombies Origins: Nazi Zombies in World at War (2008) started as an unapproved side project made by developer Jesse Snyder and a small team at Treyarch. Leadership almost scrapped it before realizing how fun it was.",
+            "Unannounced Ending Jump: Completing World at War’s campaign launched players straight into the map Nacht der Untoten with no warning before the full credits rolled.",
+            "JFK and Fidel Castro: In Black Ops 1's \"Five\" Zombies map, players could play as John F. Kennedy, Richard Nixon, Robert McNamara, or Fidel Castro.",
+            "Dead Ops Arcade: Players could break out of their interrogation chair in the Black Ops 1 main menu to access a terminal and unlock a retro top-down shooter minigame called Dead Ops Arcade.",
+            "Ray Gun Easter Egg: On the World at War campaign mission \"Little Resistance,\" stepping into specific water puddles in a precise sequence forced giant stone statues to rise and grant you Ray Guns.",
+            "Third-Person Mode: Modern Warfare 2 (2009) included dedicated 3rd-person playlists that shifted the camera behind the player's shoulder.",
+            "Shepherd’s Revolver in \"Loose Ends\": In the classic MW2 mission, right before Shepherd shoots Ghost, his revolver cylinder is already indexed to show the live round ready to fire.",
+            "The Name \"No Russian\": The infamous MW2 level got its name from Makarov's strict instruction to his squad: \"Remember, no Russian\"—meaning do not speak the language so the massacre would be pinned on the US.",
+            "Skipping \"No Russian\": Due to its intense subject matter, Infinity Ward added an option allowing players to skip the \"No Russian\" mission without any gameplay penalty or loss of achievements.",
+            "First Choice-Based Narrative: Black Ops II was the very first game in the franchise to feature branching story paths and multiple distinct campaign endings based on player decisions.",
+            "Jimmy Kimmel's Cameo: Late-night host Jimmy Kimmel made a secret cameo appearance in one of the branching narrative endings of Black Ops II.",
+            "The Nuke's Debut: Modern Warfare 2 (2009) was the first game to introduce the Tactical Nuke—an instant-win killstreak unlocked at 25 consecutive kills without dying.",
+            "The First Dog Killstreak: World at War introduced Attack Dogs as a 7-killstreak, which became so iconic that Treyarch brought them back in multiple subsequent titles.",
+            "Nuketown’s Constant Remakes: Nuketown is the most remade map in CoD history, appearing in every single main Black Ops entry in a different thematic design.",
+            "The \"Commando\" Knife Lunge: Modern Warfare 2's \"Commando Pro\" perk famously allowed players to lunge long distances to knife an opponent instantly.",
+            "The \"Martyrdom\" Outrage: Call of Duty 4: Modern Warfare (2007) sparked community debate over the \"Martyrdom\" perk, which automatically dropped a live grenade upon your death.",
+            "The \"G-Slide\" Glitch: Black Ops 3 competitive play was heavily defined by the \"G-Slide,\" an unintended movement exploit that propelled players across the map at high speeds.",
+            "Highrise’s Crane Secret: The iconic map Highrise featured a notorious ledge parkour route allowing snipers to climb to the very top of the crane overlooking the map.",
+            "Real-World Gun Name Changes: Modern CoD titles use fictional weapon names (like \"Lachmann Sub\" instead of MP5) to avoid paying licensing fees to firearm manufacturers.",
+            "The AC-130 Audio: The dialogue for the AC-130 gunship mission in Call of Duty 4 was scripted and performed by voice actors using authentic military radio protocols and filters inspired by real combat footage.",
+            "The \"Juggernaut\" Inspiration: The heavily armored Juggernauts were inspired by the bank robbers in the real-life 1997 North Hollywood Shootout.",
+            "Real Military Consultants: Infinity Ward hired former military personnel, including Navy SEALs and Army Rangers, to motion-capture tactical reloads and realistic combat movement.",
+            "The Origin of \"F to Pay Respects\": The infamous internet meme originated from Advanced Warfare’s opening funeral scene where PC players were prompted to \"Press F to Pay Respects.\"",
+            "The Guinness World Record: Call of Duty holds the Guinness World Record for the best-selling first-person shooter franchise of all time.",
+            "Eminem’s CoD Anthems: Eminem featured his track \"Won't Back Down\" in the Black Ops 1 trailer and later dropped \"Survival\" alongside the Call of Duty: Ghosts reveal.",
+            "Snoop Dogg Voice Pack: Ghosts (2013) let players buy an official DLC voice pack where Snoop Dogg narrated multiplayer announcements.",
+            "Metallica’s Live Concert: Activision hired Metallica to play a full private concert at the inaugural \"Call of Duty XP\" fan convention in Los Angeles in 2011.",
+            "Die Hard’s Nakatomi Plaza: Warzone officially recreated Nakatomi Plaza from Die Hard inside Verdansk during an '80s Action Heroes crossover event.",
+            "First CoD with No Campaign: Black Ops 4 (2018) was the very first main-series Call of Duty title shipped without a traditional single-player narrative campaign.",
+            "Blackout’s Battle Royale Debut: Black Ops 4 introduced \"Blackout,\" Activision’s first AAA Battle Royale mode before Warzone was released.",
+            "Infinite Warfare's YouTube Record: The debut trailer for Infinite Warfare (2016) became one of the most disliked YouTube videos in history, amassing over 3.9 million dislikes.",
+            "The Real Ghost Mask: Ghost’s original skull pattern was hand-painted onto a standard balaclava by animator/character designer Mark Grigsby using fabric paint.",
+            "First Playable Female Soldiers: Call of Duty: Ghosts was the first main-series title to feature playable female soldier options in multiplayer.",
+            "The FOV Revolution: Modern Warfare II (2022) brought a comprehensive Field of View (FOV) slider to console players matching PC customization options across all console platforms.",
+            "CoD Online (China Exclusive): Activision developed a free-to-play version called Call of Duty Online exclusively for China (2015–2021) featuring Cyborg Zombies and robotic mercenaries.",
+            "The Ricochet Anti-Cheat: Kernel-level anti-cheat \"Ricochet\" introduced mitigation mechanics to troll cheaters, such as making enemy targets completely invisible to them or disarming them mid-game.",
+            "The Original CoD Engine: The 2003 original Call of Duty was built on a heavily modified version of id Software’s id Tech 3 engine—the same engine that powered Quake III Arena.",
+            "Treyarch's CoD Debut: Treyarch's first main entry was Call of Duty 3 (2006), which was famously developed in an intense, rushed timeframe of around eight months.",
+            "The Secret Modern Warfare Prototype: Before pitching CoD4, Infinity Ward secretly built a modern combat tech demo using WWII assets where soldiers fought with modern red-dot sights attached to M1 Garand rifles.",
+            "CoD 2's Launch Dominance: Call of Duty 2 was the top-selling launch title for the Xbox 360 in 2005, with an attach rate of over 77% among early console buyers.",
+            "The WWII \"Red Big One\" Legacy: Call of Duty 2: Big Red One (2005) was narrated by actor Mark Hamill.",
+            "Hans Zimmer’s Main Theme: Film composer Hans Zimmer composed the main theme for Modern Warfare 2 (2009)—his first work for a video game—while the full in-game score was composed by Lorne Balfe.",
+            "Stephen Barton’s CoD4 Score: Composer Stephen Barton crafted the original tactical soundtrack for Call of Duty 4: Modern Warfare under the mentorship of Harry Gregson-Williams.",
+            "The Authentic Gun Foley: To record realistic weapon sounds for Modern Warfare (2019), audio designers traveled to desert firing ranges, placing dozens of microphones around weapons at various distances to capture real acoustics.",
+            "David Bowie’s Zombies Tribute: The Zombies map Der Riese in World at War features hidden radios playing audio clips, including Easter egg references to classic rock and David Bowie.",
+            "Brian Tyler’s MW3 Score: Hollywood composer Brian Tyler composed the complete orchestral score for Modern Warfare 3 (2011).",
+            "The Teddy Bear Location Secret: In CoD4 and MW2, mystery teddy bears were placed by level designers as \"out-of-bounds\" markers and inside map easter eggs.",
+            "The \"Mile High Club\" Password: In CoD4's \"Mile High Club,\" the dialogue spoken by the assault team directly reflects authentic counter-terrorism breach callouts.",
+            "The Giant Robot Names: The three giant robots patrolling the Black Ops II Zombies map Origins are named Freya, Thor, and Odin after Norse deities.",
+            "Verrückt’s Real-World Location: The World at War Zombies map Verrückt is modeled directly after the real-world Wittenau Asylum (Nervenheilanstalt Wittenau) in Berlin.",
+            "The Terminal Easter Egg: In Black Ops 1, entering specific terminal commands in the main menu computer reveals hidden text files and secret unlockable content.",
+            "The IW Engine Evolution: Infinity Ward developed their own proprietary engine (IW Engine) starting with CoD2, which introduced dynamic smoke, weather effects, and squad pathfinding.",
+            "Photogrammetry Upgrade: Modern Warfare (2019) introduced an overhauled engine utilizing photogrammetry—scanning real-world objects and materials to render photo-realistic environments.",
+            "Killstreak System Debut: Call of Duty 4: Modern Warfare popularized the persistent, stackable killstreak system (UAV at 3, Airstrike at 5, Helicopter at 7).",
+            "Create-a-Class Pick 10: Black Ops II introduced the \"Pick 10\" system, allowing players to trade weapon attachments for extra perks or equipment.",
+            "First Dynamic Map Destruction: Call of Duty: Ghosts introduced \"Field Orders\" and dynamic map changes, such as the collapsing skyscraper on the map Strikezone.",
+            "Warzone's Original Player Cap: When Warzone launched in March 2020, it featured a 150-player lobby count, which was later temporarily expanded to 200 players in special limited-time modes.",
+            "The Gulag 1v1 Mechanic: Warzone introduced the \"Gulag\" mechanic, giving eliminated players a 1v1 second-chance gunfight to redeploy into the match.",
+            "Verdansk's Real-World Architecture: The original Verdansk map featured landmarks directly modeled after real-world locations, such as the Donetsk International Airport and the Dnipro Arena in Ukraine.",
+            "The Stadium Opening: Verdansk Stadium remained sealed for the first four seasons of Warzone until a Season 5 event blew open the roof.",
+            "Rebirth Island Roots: Rebirth Island in Warzone was based on Alcatraz Island and was adapted from Black Ops 4's Blackout map.",
+            "Michael Rooker in Zombies: Actor Michael Rooker played a playable version of himself in the BO1 Zombies map Call of the Dead.",
+            "Sarah Michelle Gellar: Sarah Michelle Gellar was a playable character alongside Danny Trejo, Robert Englund, and Michael Rooker in Call of the Dead.",
+            "Jeff Goldblum in Shadows of Evil: Jeff Goldblum voiced Nero the magician in the Black Ops III Zombies map Shadows of Evil.",
+            "Ron Perlman’s Cameo: Ron Perlman joined Jeff Goldblum in Shadows of Evil, voicing the boxer Campbell.",
+            "Sam Worthington as Alex Mason: Actor Sam Worthington provided the voice and performance capture for main protagonist Alex Mason across the Black Ops franchise.",
+            "CoD Championship Prize Pool: The annual Call of Duty Championship (CoD Champs) officially debuted in 2013 with a $1,000,000 global prize pool.",
+            "The First World Champions: Fariko Impact became the very first Call of Duty World Champions after winning the 2013 Black Ops II tournament.",
+            "The CDL City-Based Franchise Model: In 2020, Activision launched the Call of Duty League (CDL), shifting competitive CoD to a city-based franchise structure (e.g., OpTic Texas, Atlanta FaZe).",
+            "Hardpoint Debut: The competitive mode \"Hardpoint\" (where teams capture rotating hills) was first introduced in Black Ops II.",
+            "Control Mode Debut: The competitive mode \"Control\" was built specifically for Black Ops 4 to blend tactical objectives with team lives.",
+            "The M4A1 Legacy: The M4/M4A1 platform has appeared in more Call of Duty titles than almost any other modern assault rifle in the franchise.",
+            "Stopping Power Removal: The \"Stopping Power\" perk (which directly increased bullet damage) was phased out in later games because it dominated perk choices across player loadouts.",
+            "The Scavenger Pack Sound: The distinct metallic sound effect when picking up a Scavenger blue bag was introduced in MW2 (2009) and became an iconic audio cue.",
+            "Cross-Play Debut: Modern Warfare (2019) was the first main-entry Call of Duty to feature full cross-platform play between PC, PlayStation, and Xbox out of the box.",
+            "Tactical Sprinting: Modern Warfare (2019) introduced \"Tactical Sprint\"—a temporary speed boost where characters sprint while holding their weapon upward.",
+            "CoD: Future Warfare (NX1): Infinity Ward spent time developing a prototype titled Future Warfare (codenamed NX1) around 2010, featuring space combat years before Infinite Warfare.",
+            "CoD Mobile's Record Launch: Call of Duty: Mobile (2019) generated over 100 million downloads in its first week, making it one of the largest mobile game launches ever.",
+            "CoD Tactics Pitch: Activision once pitched an isometric, turn-based strategy game codenamed Call of Duty: Tactics for handheld consoles before abandoning the concept.",
+            "CoD: Devil's Brigade: A third-person action-adventure spin-off set during WWII titled Call of Duty: Devil's Brigade was in development at Underground Development before being cancelled in 2008.",
+            "Zombies Mobile Standalone: In 2011, Activision launched a dedicated standalone Call of Duty: Black Ops Zombies mobile app built for iOS and Android.",
+            "Over 500 Million Copies Sold: The Call of Duty franchise has officially sold over 500 million lifetime unit copies worldwide across all installments.",
+            "CoD4's Game of the Year Sweeps: Call of Duty 4: Modern Warfare won over 40 official Game of the Year awards in 2007, solidifying its place in gaming history.",
+            "Black Ops 1 Sales Record: Call of Duty: Black Ops (2010) sold over 5.6 million copies in the US and UK combined within its first 24 hours of release.",
+            "Warzone Player Count: Within its first year of release (by April 2021), Call of Duty: Warzone crossed the milestone of over 100 million players.",
+            "Total Hours Played: The franchise has recorded over 100 billion total hours played across all multiplayer, campaign, and Zombies modes combined since 2003."
+        ];
+
+        // DAILY FACT SYSTEM LOGIC
+        function loadDailyFact() {
+            const todayStr = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+            let lastFactDate = localStorage.getItem('codzone_fact_date');
+            let currentFactIndex = parseInt(localStorage.getItem('codzone_fact_index'));
+
+            if (isNaN(currentFactIndex)) {
+                currentFactIndex = 0;
+                localStorage.setItem('codzone_fact_index', 0);
+                localStorage.setItem('codzone_fact_date', todayStr);
+            } else if (lastFactDate !== todayStr) {
+                // Posun na ďalší fakt pri novom dni
+                currentFactIndex = (currentFactIndex + 1) % dailyFacts.length;
+                localStorage.setItem('codzone_fact_index', currentFactIndex);
+                localStorage.setItem('codzone_fact_date', todayStr);
+            }
+
+            const factEl = document.getElementById('daily-fact-text');
+            if (factEl && dailyFacts[currentFactIndex]) {
+                factEl.innerText = dailyFacts[currentFactIndex];
+            }
+        }
+
         // LIST OF DIED RESPONSES
         const diedResponses = [
             "100% wallhack, he saw you through 3 buildings.",
@@ -1800,6 +1955,7 @@
 
         // INICIALIZÁCIA PO NAČÍTANÍ STRÁNKY
         window.onload = function() {
+            loadDailyFact();
             renderMeta();
             updateWeaponList();
             renderQuiz();
