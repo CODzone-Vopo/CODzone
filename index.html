@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODzone</title>
+    <title>WarHub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --card-bg: #141923;
-            --accent-turquoise: #00c4b4;
-            --accent-gold: #d4af37;
-            --accent-red: #ff3333;
-            --text-white: #ffffff;
-            --text-muted: #8a94a6;
-            --border-color: #202736;
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --accent-orange: #FF9900;
+            --accent-white: #FFFFFF;
+            --text-dark: #000000;
+            --text-muted: #4A4A4A;
+            --border-color: #1E1E1E;
         }
 
         * { box-sizing: border-box; font-family: 'Black Ops One', cursive, sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-white); padding: 15px; display: flex; justify-content: center; }
+        body { background-color: var(--bg-color); color: var(--accent-white); padding: 15px; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 480px; }
         
         /* Header & Logo */
@@ -32,40 +31,40 @@
         .btn-died {
             width: 100%;
             padding: 14px;
-            border-radius: 8px;
-            border: 2px solid #b30000;
-            background: linear-gradient(135deg, #ff3333, #b30000);
-            color: #ffffff;
+            border-radius: 4px;
+            border: 2px solid var(--accent-orange);
+            background: linear-gradient(135deg, #FF9900, #1E1E1E);
+            color: var(--accent-white);
             font-weight: bold;
             font-size: 18px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.2);
         }
         .btn-died:active { transform: scale(0.98); }
-        .btn-died:hover { background: linear-gradient(135deg, #ff4d4d, #cc0000); }
+        .btn-died:hover { background: linear-gradient(135deg, #FFFFFF, #FF9900); color: var(--text-dark); }
 
         /* Daily Fact Card */
         .daily-fact-card {
             background: var(--card-bg);
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
+            border: 1px solid var(--accent-orange);
+            border-radius: 4px;
             padding: 15px;
             margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 4px 12px rgba(255, 153, 0, 0.1);
         }
         .daily-fact-title {
-            color: var(--accent-gold);
+            color: var(--accent-orange);
             font-size: 14px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
         .daily-fact-text {
-            color: var(--text-white);
+            color: var(--accent-white);
             font-size: 13px;
             line-height: 1.5;
             font-family: sans-serif;
@@ -74,48 +73,48 @@
 
         /* Navigation Tabs */
         .nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 12px 5px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-muted); font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.2s; text-align: center; }
-        .tab-btn.active { background: var(--accent-turquoise); color: #000; border-color: var(--accent-turquoise); }
+        .tab-btn { flex: 1; padding: 12px 5px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-muted); font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.2s; text-align: center; }
+        .tab-btn.active { background: var(--accent-orange); color: var(--text-dark); border-color: var(--accent-orange); }
 
         /* Sections Visibility */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         /* Cards & Form */
-        .card { background: var(--card-bg); border-radius: 12px; padding: 18px; margin-bottom: 15px; border: 1px solid var(--border-color); }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--accent-turquoise); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: #1c2331; color: var(--text-white); font-size: 15px; margin-bottom: 15px; outline: none; }
-        select:focus { border-color: var(--accent-turquoise); }
+        .card { background: var(--card-bg); border-radius: 4px; padding: 18px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--accent-orange); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        select { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid var(--border-color); background: #1E1E1E; color: var(--accent-white); font-size: 15px; margin-bottom: 15px; outline: none; }
+        select:focus { border-color: var(--accent-orange); }
         
         /* Action Buttons */
-        .btn-build { width: 100%; padding: 14px; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--accent-turquoise), #009688); color: #000; font-weight: 800; font-size: 16px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.2s; }
+        .btn-build { width: 100%; padding: 14px; border-radius: 4px; border: none; background: linear-gradient(135deg, #FF9900, #1E1E1E); color: var(--accent-white); font-weight: 800; font-size: 16px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.2s; }
         .btn-build:active { transform: scale(0.98); }
-        .btn-build:disabled { background: #2a3447; color: #5a6578; cursor: not-allowed; transform: none; }
+        .btn-build:disabled { background: #1E1E1E; color: #4A4A4A; cursor: not-allowed; transform: none; }
 
         /* META Cards Styling */
         .meta-list { display: flex; flex-direction: column; gap: 15px; }
-        .meta-card { background: #1c2331; border: 2px solid var(--accent-gold); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+        .meta-card { background: #1E1E1E; border: 2px solid var(--accent-orange); border-radius: 4px; padding: 15px; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
         .meta-card:active { transform: scale(0.98); }
-        .meta-card:hover { border-color: var(--accent-turquoise); }
-        .meta-title { color: var(--text-white); font-size: 20px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
-        .meta-img-box { background: #0e121a; border-radius: 8px; padding: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color); min-height: 90px; display: flex; align-items: center; justify-content: center; }
+        .meta-card:hover { border-color: var(--accent-white); }
+        .meta-title { color: var(--accent-white); font-size: 20px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .meta-img-box { background: #000000; border-radius: 4px; padding: 10px; margin-bottom: 10px; border: 1px dashed var(--border-color); min-height: 90px; display: flex; align-items: center; justify-content: center; }
         .meta-img-box img { max-width: 100%; max-height: 100px; object-fit: contain; }
-        .meta-action { color: var(--accent-turquoise); font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .meta-action { color: var(--accent-orange); font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
         /* Quiz Specific Styling */
         .quiz-question-block { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         .quiz-question-block:last-child { border-bottom: none; margin-bottom: 10px; }
-        .quiz-q-num { color: var(--accent-gold); font-size: 12px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        .quiz-q-text { color: var(--text-white); font-size: 14px; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+        .quiz-q-num { color: var(--accent-orange); font-size: 12px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .quiz-q-text { color: var(--accent-white); font-size: 14px; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
 
         /* Output / Result Box */
-        .result-box { display: none; border-top: 3px solid var(--accent-gold); }
-        .section-title { color: var(--accent-gold); font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 3px; text-transform: uppercase; }
-        .style-badge { text-align: center; font-size: 12px; color: var(--accent-turquoise); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
-        .style-desc-box { background: #1c2331; border-radius: 8px; padding: 15px; border-left: 3px solid var(--accent-gold); color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+        .result-box { display: none; border-top: 3px solid var(--accent-orange); }
+        .section-title { color: var(--accent-orange); font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 3px; text-transform: uppercase; }
+        .style-badge { text-align: center; font-size: 12px; color: var(--accent-white); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .style-desc-box { background: #1E1E1E; border-radius: 4px; padding: 15px; border-left: 3px solid var(--accent-orange); color: var(--text-muted); font-size: 14px; line-height: 1.5; }
 
         /* Weapon Image Container */
-        .weapon-img-box { text-align: center; margin-bottom: 15px; min-height: 100px; display: flex; align-items: center; justify-content: center; background: #0e121a; border-radius: 8px; padding: 10px; border: 1px dashed var(--border-color); }
+        .weapon-img-box { text-align: center; margin-bottom: 15px; min-height: 100px; display: flex; align-items: center; justify-content: center; background: #000000; border-radius: 4px; padding: 10px; border: 1px dashed var(--border-color); }
         .weapon-img-box img { max-width: 100%; max-height: 120px; object-fit: contain; }
 
         /* Attachments & Perks List */
@@ -123,14 +122,14 @@
         .att-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); font-size: 14px; }
         .att-item:last-child { border-bottom: none; }
         .att-slot { color: var(--text-muted); font-weight: 600; }
-        .att-name { color: var(--text-white); font-weight: bold; text-align: right; }
+        .att-name { color: var(--accent-white); font-weight: bold; text-align: right; }
 
         /* Perk Card styling */
-        .perk-card { padding: 12px; background: #1c2331; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--accent-turquoise); }
+        .perk-card { padding: 12px; background: #1E1E1E; border-radius: 4px; margin-bottom: 10px; border-left: 3px solid var(--accent-orange); }
         .perk-card:last-child { margin-bottom: 0; }
         .perk-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; }
-        .perk-slot { color: var(--accent-gold); font-size: 12px; text-transform: uppercase; }
-        .perk-name { color: var(--text-white); font-size: 15px; }
+        .perk-slot { color: var(--accent-orange); font-size: 12px; text-transform: uppercase; }
+        .perk-name { color: var(--accent-white); font-size: 15px; }
         .perk-desc-list { list-style: none; padding-left: 0; margin-top: 5px; }
         .perk-desc-list li { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
 
@@ -139,7 +138,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -147,13 +146,13 @@
         }
         .modal-card {
             background: var(--card-bg);
-            border: 2px solid var(--accent-red);
-            border-radius: 12px;
+            border: 2px solid var(--accent-orange);
+            border-radius: 4px;
             padding: 25px 20px;
             max-width: 400px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 0 25px rgba(255, 51, 51, 0.5);
+            box-shadow: 0 0 25px rgba(255, 153, 0, 0.3);
             animation: popIn 0.3s ease-out;
         }
         @keyframes popIn {
@@ -161,14 +160,14 @@
             100% { transform: scale(1); opacity: 1; }
         }
         .modal-title {
-            color: var(--accent-red);
+            color: var(--accent-orange);
             font-size: 20px;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         .modal-text {
-            color: var(--text-white);
+            color: var(--accent-white);
             font-size: 16px;
             line-height: 1.5;
             margin-bottom: 20px;
@@ -178,17 +177,17 @@
             justify-content: center;
         }
         .modal-btn {
-            background: var(--accent-red);
-            color: #fff;
+            background: var(--accent-orange);
+            color: var(--text-dark);
             border: none;
             padding: 10px 20px;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
         }
-        .modal-btn:hover { background: #cc0000; }
+        .modal-btn:hover { background: var(--accent-white); }
     </style>
 </head>
 <body>
@@ -198,7 +197,7 @@
         <!-- HEADER WITH LOGO -->
         <div class="header">
             <img src="images/logo.png" alt="CODzone Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
-            <h1 id="alt-logo" style="display:none; color: var(--accent-turquoise); font-size: 28px;">COD<span style="color: var(--accent-gold);">ZONE</span></h1>
+            <h1 id="alt-logo" style="display:none; color: var(--accent-orange); font-size: 28px;">COD<span style="color: var(--accent-white);">ZONE</span></h1>
         </div>
 
         <!-- I JUST DIED BUTTON -->
@@ -263,7 +262,7 @@
 
                 <!-- Obrázok zbrane -->
                 <div class="weapon-img-box">
-                    <img id="w-img" src="" alt="Weapon Image" onerror="this.src='https://via.placeholder.com/300x100/141923/00c4b4?text=Weapon+Image'">
+                    <img id="w-img" src="" alt="Weapon Image" onerror="this.src='https://via.placeholder.com/300x100/1E1E1E/FF9900?text=Weapon+Image'">
                 </div>
 
                 <!-- Zoznam Attachmentov -->
@@ -1546,419 +1545,414 @@
             "VS RECON": {
                 "precision": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "23” G-Force Barrel" },
-                    { slot: "Underbarrel", name: "Stetig-C Handguard" },
-                    { slot: "Stock", name: "Stabil Heavy Pad" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "24.5” Redwell Sledge Barrel" },
+                    { slot: "Comb", name: "VAS Precision Riser" },
+                    { slot: "Stock", name: "Weighted Target Stock" },
+                    { slot: "Fire Mods", name: ".50 BMG Overpressured" }
                 ],
                 "aggressive": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "19.3” Tack Driver Barrel" },
-                    { slot: "Underbarrel", name: "Stetig-C Handguard" },
-                    { slot: "Rear Grip", name: "R-1 Shelf Grip" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "21.2” Recon Heavy Barrel" },
+                    { slot: "Comb", name: "VAS Precision Riser" },
+                    { slot: "Rear Grip", name: "Quickstrike Grip" },
+                    { slot: "Fire Mods", name: ".50 BMG Overpressured" }
                 ],
                 "movement": [
-                    { slot: "Barrel", name: "17” RistRauch Nimbus Barrel" },
-                    { slot: "Underbarrel", name: "Breacher Hanguard" },
-                    { slot: "Magazine", name: "DashLine Speed Mag" },
-                    { slot: "Rear Grip", name: "Kinesis Grip" },
-                    { slot: "Stock", name: "Contra Light Pad" }
+                    { slot: "Barrel", name: "18.5” Short Scout Barrel" },
+                    { slot: "Magazine", name: "Speedload Fast Mag" },
+                    { slot: "Comb", name: "VAS Precision Riser" },
+                    { slot: "Rear Grip", name: "Quickstrike Grip" },
+                    { slot: "Stock", name: "Lightweight Skeleton Pad" }
                 ],
                 "camping": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "23” G-Force Barrel" },
-                    { slot: "Rear Grip", name: "VS Poise Grip" },
-                    { slot: "Stock", name: "Stabil Heavy Pad" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "24.5” Redwell Sledge Barrel" },
+                    { slot: "Comb", name: "VAS Precision Riser" },
+                    { slot: "Stock", name: "Weighted Target Stock" },
+                    { slot: "Fire Mods", name: ".50 BMG Overpressured" }
                 ]
             },
             "XR-3 ION": {
                 "precision": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "19” Revolution Barrel" },
-                    { slot: "Underbarrel", name: "Zero-S Handguard" },
-                    { slot: "Stock", name: "Lethal Absorb Stock" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "23.8” Heavy Ion Barrel" },
+                    { slot: "Comb", name: "High-Caliber Riser" },
+                    { slot: "Stock", name: "Stabilizer Counterweight" },
+                    { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ],
                 "aggressive": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "17” XR-Adapt Barrel" },
-                    { slot: "Underbarrel", name: "Zero-S Handguard" },
-                    { slot: "Rear Grip", name: "L.T. Sling Grip" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "21” Plasma-Core Barrel" },
+                    { slot: "Comb", name: "High-Caliber Riser" },
+                    { slot: "Rear Grip", name: "Tactic Grip" },
+                    { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ],
                 "movement": [
-                    { slot: "Barrel", name: "15” Fringe Barrel" },
-                    { slot: "Underbarrel", name: "Advanced Step Handstop" },
-                    { slot: "Magazine", name: "Phantom-V Fast Mag" },
-                    { slot: "Rear Grip", name: "Transit-Ion Grip" },
-                    { slot: "Stock", name: "LTI Collapsed Stock" }
+                    { slot: "Barrel", name: "17.2” Pulse-Light Barrel" },
+                    { slot: "Magazine", name: "Energy Cell Fast Mag" },
+                    { slot: "Comb", name: "High-Caliber Riser" },
+                    { slot: "Rear Grip", name: "Tactic Grip" },
+                    { slot: "Stock", name: "Polymer Speed Stock" }
                 ],
                 "camping": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "20” Ion Trinity Barrel" },
-                    { slot: "Rear Grip", name: "L9 Vertigo Grip" },
-                    { slot: "Stock", name: "Lethal Absorb Stock" },
-                    { slot: "Fire Mods", name: "7.62 NATO Overpressured" }
+                    { slot: "Barrel", name: "23.8” Heavy Ion Barrel" },
+                    { slot: "Comb", name: "High-Caliber Riser" },
+                    { slot: "Stock", name: "Stabilizer Counterweight" },
+                    { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ]
             },
             "STRIDER 300": {
                 "precision": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "21.2” Carbon Atoll Barrel" },
-                    { slot: "Underbarrel", name: "MFS Ballast Guard Stabilizer" },
-                    { slot: "Stock", name: "Bowen Industrial Stock" },
+                    { slot: "Barrel", name: "25.2” Long Range Barrel" },
+                    { slot: "Comb", name: "Apex Marksman Riser" },
+                    { slot: "Stock", name: "Strider Precision Stock" },
                     { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ],
                 "aggressive": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "17” EAM PLYP-4 Barrel" },
-                    { slot: "Rear Grip", name: "Redwell Gorgon Grip" },
-                    { slot: "Stock", name: "EAM Raconteur Stock" },
+                    { slot: "Barrel", name: "22.5” Assault Sniper Barrel" },
+                    { slot: "Comb", name: "Apex Marksman Riser" },
+                    { slot: "Rear Grip", name: "Stippled Tac Grip" },
                     { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ],
                 "movement": [
-                    { slot: "Barrel", name: "17” EAM PLYP-4 Barrel" },
-                    { slot: "Underbarrel", name: "Bowen Huntsmen Guard" },
-                    { slot: "Magazine", name: "Carnation Fast Mag" },
-                    { slot: "Rear Grip", name: "Hatch Quick Grip" },
-                    { slot: "Stock", name: "Hawker Vigor Stock" }
+                    { slot: "Barrel", name: "18” CQB Stealth Barrel" },
+                    { slot: "Magazine", name: "Expanded Mag II" },
+                    { slot: "Comb", name: "Apex Marksman Riser" },
+                    { slot: "Rear Grip", name: "Stippled Tac Grip" },
+                    { slot: "Stock", name: "Ultra-Light Stock" }
                 ],
                 "camping": [
                     { slot: "Muzzle", name: "Monolithic Suppressor" },
-                    { slot: "Barrel", name: "25” Bowen Grooved Barrel" },
-                    { slot: "Underbarrel", name: "MFS Ballast Guard Stabilizer" },
-                    { slot: "Stock", name: "Bowen Industrial Stock" },
+                    { slot: "Barrel", name: "25.2” Long Range Barrel" },
+                    { slot: "Comb", name: "Apex Marksman Riser" },
+                    { slot: "Stock", name: "Strider Precision Stock" },
                     { slot: "Fire Mods", name: ".300 WM Overpressured" }
                 ]
             }
         };
 
-        // 5. DATABÁZA OTÁZOK PRE FIND YOUR STYLE (QUIZ)
+        // POMOCNÁ FUNKCIA NA NÁJDENIE KATEGÓRIE A SANITIZÁCIU NÁZVU PRE OBRÁZOK
+        function getGunCategory(gunName) {
+            for (let cat in weaponsDatabase) {
+                if (weaponsDatabase[cat].includes(gunName)) return cat;
+            }
+            return "ar"; // fallback
+        }
+
+        function getGunImageName(gunName) {
+            // Skonvertuje "RYDEN 45K" na "ryden_45k"
+            return gunName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        }
+
+        // AUTO-GENERÁCIA META ZBRANÍ V ZÁLOŽKE META
+        function renderMetaCards() {
+            const container = document.getElementById('meta-container');
+            if (!container) return;
+            container.innerHTML = "";
+
+            metaGuns.forEach(gunName => {
+                const category = getGunCategory(gunName);
+                const imgSlug = getGunImageName(gunName);
+
+                const cardHtml = `
+                    <div class="meta-card" onclick="selectMetaGun('${category}', '${gunName}')">
+                        <div class="meta-title">${gunName}</div>
+                        <div class="meta-img-box">
+                            <img src="images/weapons/${imgSlug}.png" alt="${gunName}" onerror="this.src='https://via.placeholder.com/300x100/1E1E1E/FF9900?text=${encodeURIComponent(gunName)}'">
+                        </div>
+                        <div class="meta-action">BUILD THIS LOADOUT ➔</div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // PREKLIK Z META KARTY PRIAMO DO LOADOUTU
+        function selectMetaGun(category, gunName) {
+            switchTab('loadout');
+            const categorySelect = document.getElementById('category');
+            if (categorySelect) {
+                categorySelect.value = category;
+                updateWeaponList();
+                const weaponSelect = document.getElementById('weapon');
+                if (weaponSelect) {
+                    weaponSelect.value = gunName;
+                    generateLoadout();
+                }
+            }
+        }
+
+        // AKTUALIZÁCIA ZOZNAMU ZBRANÍ PRI ZMENE KATEGÓRIE
+        function updateWeaponList() {
+            const categorySelect = document.getElementById('category');
+            const weaponSelect = document.getElementById('weapon');
+            const selectedCategory = categorySelect.value;
+
+            weaponSelect.innerHTML = "";
+
+            weaponsDatabase[selectedCategory].forEach(weapon => {
+                const option = document.createElement('option');
+                option.value = weapon;
+                option.textContent = weapon;
+                weaponSelect.appendChild(option);
+            });
+        }
+
+        // GENERATION OF LOADOUT
+        function generateLoadout() {
+            const weapon = document.getElementById('weapon').value;
+            const style = document.getElementById('style').value;
+
+            document.getElementById('w-title').innerText = weapon;
+            document.getElementById('w-style').innerText = style.toUpperCase() + " BUILD";
+
+            // Nastavenie obrázka zbrane
+            const imgSlug = getGunImageName(weapon);
+            const imgEl = document.getElementById('w-img');
+            imgEl.src = `images/weapons/${imgSlug}.png`;
+            imgEl.onerror = function() {
+                this.src = `https://via.placeholder.com/300x100/1E1E1E/FF9900?text=${encodeURIComponent(weapon)}`;
+            };
+
+            const container = document.getElementById('att-container');
+            container.innerHTML = "";
+
+            const weaponBuilds = buildsDatabase[weapon];
+            
+            if (weaponBuilds && weaponBuilds[style]) {
+                weaponBuilds[style].forEach(att => {
+                    const item = document.createElement('div');
+                    item.className = 'att-item';
+                    item.innerHTML = `<span class="att-slot">${att.slot}:</span><span class="att-name">${att.name}</span>`;
+                    container.appendChild(item);
+                });
+            } else {
+                container.innerHTML = `<div class="att-item"><span class="att-slot">Build:</span><span class="att-name">Standard Tactical Setup</span></div>`;
+            }
+
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // GENERATION OF PERKS
+        function generatePerks() {
+            const style = document.getElementById('perk-style').value;
+            
+            document.getElementById('p-style-title').innerText = style.toUpperCase();
+            
+            const container = document.getElementById('perks-container');
+            container.innerHTML = "";
+
+            const perks = perksDatabase[style];
+
+            if (perks) {
+                perks.forEach(perk => {
+                    let descItemsHtml = "";
+                    perk.desc.forEach(d => {
+                        descItemsHtml += `<li>• ${d}</li>`;
+                    });
+
+                    const perkCardHtml = `
+                        <div class="perk-card">
+                            <div class="perk-header">
+                                <span class="perk-slot">${perk.slot}</span>
+                                <span class="perk-name">${perk.name}</span>
+                            </div>
+                            <ul class="perk-desc-list">
+                                ${descItemsHtml}
+                            </ul>
+                        </div>
+                    `;
+                    container.innerHTML += perkCardHtml;
+                });
+            }
+
+            document.getElementById('perk-result').style.display = 'block';
+        }
+
+        // QUIZ QUESTIONS DATA
         const quizQuestions = [
             {
-                q: "What is your primary focus when entering a gunfight?",
+                q: "1. What is your primary objective when jumping out of the plane?",
                 options: [
-                    { text: "Hitting critical headshots and controlled bursts", style: "precision" },
-                    { text: "Closing distance instantly and overwhelming the enemy", style: "aggressive" },
-                    { text: "Outmaneuvering with jumps, slides, and unpredictable movement", style: "movement" },
-                    { text: "Holding a superior power position and waiting for them to cross", style: "camping" }
+                    { text: "Find a high-ground vantage point and survey the area", style: "precision" },
+                    { text: "Land at the hottest zone immediately to get early kills", style: "aggressive" },
+                    { text: "Land near a vehicle or slide-cancel through buildings fast", style: "movement" },
+                    { text: "Secure a quiet building, lock doors, and plant claymores", style: "camping" }
                 ]
             },
             {
-                q: "How do you handle low health during a duel?",
+                q: "2. How do you handle an enemy squad pushing your building?",
                 options: [
-                    { text: "Fall back to cover, re-center crosshairs, and await their peek", style: "precision" },
-                    { text: "Chall anyway! Aggression rewards confidence", style: "aggressive" },
-                    { text: "Slide cancel or jump-shot away to reset the engagement", style: "movement" },
-                    { text: "Hunker down behind cover, plate up, and hold the angle", style: "camping" }
+                    { text: "Pre-aim the main choke point with laser accuracy", style: "precision" },
+                    { text: "Maneuver out, throw flashbangs, and push them head-on", style: "aggressive" },
+                    { text: "Jump through windows, reposition rapidly, and confuse them", style: "movement" },
+                    { text: "Hold a tight corner silently and wait for them to enter", style: "camping" }
                 ]
             },
             {
-                q: "What weapon stat matters most to you?",
+                q: "3. What type of weapon optics do you prefer?",
                 options: [
-                    { text: "Bullet Velocity & Recoil Control", style: "precision" },
-                    { text: "Time to Kill (TTK) & Damage per Minute", style: "aggressive" },
-                    { text: "Sprint to Fire & ADS Speed", style: "movement" },
-                    { text: "Magazine Capacity & Range", style: "camping" }
+                    { text: "High-magnification scope for clean headshots", style: "precision" },
+                    { text: "Clean iron sights or fast red dots for low ADS time", style: "aggressive" },
+                    { text: "Compact ELO sights with high visibility for fast tracking", style: "movement" },
+                    { text: "Thermal optics or heavy 3x scopes for stationary targeting", style: "camping" }
                 ]
             },
             {
-                q: "An enemy ping appears on your mini-map nearby. What's your move?",
+                q: "4. What is your reaction when you hear footsteps nearby?",
                 options: [
-                    { text: "Pre-aim the likely choke point and wait for sightlines", style: "precision" },
-                    { text: "Sprint directly toward the dot to force a fight", style: "aggressive" },
-                    { text: "Flank around rapidly using high-mobility routes", style: "movement" },
-                    { text: "Set up a lethal trap/claymore and watch the door", style: "camping" }
+                    { text: "Stop, listen to audio cues, and ping for the team", style: "precision" },
+                    { text: "Chall immediately before they know your exact location", style: "aggressive" },
+                    { text: "Slide-cancel around the corner to catch them mid-sprint", style: "movement" },
+                    { text: "Crouch-walk into a corner and pre-aim the doorway", style: "camping" }
                 ]
             },
             {
-                q: "Which engagement distance do you feel most comfortable at?",
+                q: "5. How do you manage your tactical resources (UAV, Armor, Ammo)?",
                 options: [
-                    { text: "Medium to long range with clean optic vision", style: "precision" },
-                    { text: "Point-blank barrel-stuffing range", style: "aggressive" },
-                    { text: "Any range, as long as I am constantly on the move", style: "movement" },
-                    { text: "Long range from a fortified high-ground spot", style: "camping" }
+                    { text: "Save UAVs for critical circle rotations and endgame decisions", style: "precision" },
+                    { text: "Pop UAV immediately to hunt the nearest dots on the map", style: "aggressive" },
+                    { text: "Use stims and speed boosts constantly to keep up tempo", style: "movement" },
+                    { text: "Stockpile trophies, munition boxes, and extra armor inside a room", style: "camping" }
                 ]
             },
             {
-                q: "How do you react when your squad gets wiped?",
+                q: "6. Which engagement distance do you feel most confident in?",
                 options: [
-                    { text: "Methodically pick off enemies one by one from safety", style: "precision" },
-                    { text: "Go for the heroic wipe attempt immediately", style: "aggressive" },
-                    { text: "Use agility and parkour to evade until redeploy", style: "movement" },
-                    { text: "Find a quiet building, lock it down, and survive", style: "camping" }
+                    { text: "Medium-to-long range with controlled fire bursts", style: "precision" },
+                    { text: "Point-blank range where gunskill decides the winner", style: "aggressive" },
+                    { text: "Dynamic close-to-medium range where you can break ankles", style: "movement" },
+                    { text: "Any distance as long as you have heavy cover and a mounting spot", style: "camping" }
                 ]
             },
             {
-                q: "What is your favorite type of equipment?",
+                q: "7. What is your ideal secondary weapon slot?",
                 options: [
-                    { text: "Smoke Grenade or Spotter Scope for tactical control", style: "precision" },
-                    { text: "Semtex or Molotov to push enemies out of cover", style: "aggressive" },
-                    { text: "Stun or Flash Grenade to push while they are blinded", style: "movement" },
-                    { text: "Proximity Mine or Claymore for area denial", style: "camping" }
+                    { text: "A dedicated long-range sniper or high-damage DMR", style: "precision" },
+                    { text: "A fast TTK hip-fire SMG or Akimbo pistols", style: "aggressive" },
+                    { text: "A lightweight mobility SMG with maximum sprint speed", style: "movement" },
+                    { text: "A heavy shotgun or launcher to clear incoming breach attempts", style: "camping" }
                 ]
             },
             {
-                q: "What is your stance on recoil?",
+                q: "8. How do you rotate into the final gas circles?",
                 options: [
-                    { text: "Recoil must be zero; I want laser-beam accuracy", style: "precision" },
-                    { text: "Recoil doesn't matter if they die before my mag empties", style: "aggressive" },
-                    { text: "I can control recoil easily while sliding and jumping", style: "movement" },
-                    { text: "Mounting or firing from cover eliminates recoil anyway", style: "camping" }
+                    { text: "Plan the rotation early using map contours and high ground", style: "precision" },
+                    { text: "Wipe every squad along the edge of the gas as you rotate", style: "aggressive" },
+                    { text: "Sprint through the open using bunny hops and slide cancels", style: "movement" },
+                    { text: "Hold the last safe power-building until the gas forces you out", style: "camping" }
                 ]
             },
             {
-                q: "What describes your ideal match pacing?",
+                q: "9. What frustrates you most during a Warzone match?",
                 options: [
-                    { text: "Calculated, steady, and high efficiency", style: "precision" },
-                    { text: "Non-stop action from drop to victory", style: "aggressive" },
-                    { text: "Fast-paced, high APM (actions per minute) movement", style: "movement" },
-                    { text: "Patient, tactical, and winning through positioning", style: "camping" }
+                    { text: "Uncontrollable weapon recoil or missed easy shots", style: "precision" },
+                    { text: "Running around for 5 minutes without finding any enemy fights", style: "aggressive" },
+                    { text: "Slow ADS times or clunky movement mechanics holding you back", style: "movement" },
+                    { text: "Getting third-partied while moving across open fields", style: "camping" }
                 ]
             },
             {
-                q: "Why do you play COD Warzone / Multiplayer?",
+                q: "10. What is your overall gameplay philosophy?",
                 options: [
-                    { text: "To hit satisfying shots and maintain high accuracy", style: "precision" },
-                    { text: "To drop high-kill games and dominate lobbys", style: "aggressive" },
-                    { text: "To outplay people with slick movement mechanics", style: "movement" },
-                    { text: "To outsmart opponents and secure the Win by any means", style: "camping" }
+                    { text: "\"Calculated shots and tactical placement win games.\"", style: "precision" },
+                    { text: "\"High kills and aggressive pressure win games.\"", style: "aggressive" },
+                    { text: "\"Speed, agility, and breaking cameras win games.\"", style: "movement" },
+                    { text: "\"Patience, positioning, and surviving until the end win games.\"", style: "camping" }
                 ]
             }
         ];
 
-        // HUMOROUS DESCRIPTIONS AND JOKES FOR PLAYSTYLES
-        const styleDescriptions = {
-            precision: `
-                <strong>Precision Marksman:</strong> You truly believe that monastic discipline and pixel-perfect aim win games. While your teammates are jumping around the map like caffeinated rabbits, you calmly hold lines of sight, control recoil down to 0.001mm, and methodically clear the lobby. You don't move slow—you "tactically advance."<br><br>
-                <em style="color: var(--accent-gold);">💬 Joke:</em> Why do Precision players never use shotguns? Because pellet spread feels like a personal insult to their faith in the first bullet.
-            `,
-            aggressive: `
-                <strong>Aggressive Rusher:</strong> Your 'W' key or left thumbstick is in a permanent state of clinical brain death. The mini-map isn't a tool for you; it's a takeaway menu. You don't enter buildings through doors—you fly through windows with the trigger pulled and zero Plan B. If you don't die within 5 seconds of spawning, you get bored.<br><br>
-                <em style="color: var(--accent-gold);">💬 Joke:</em> What's the difference between an Aggressive Rusher and an cooked grenade? The grenade actually waits a few seconds before blowing up.
-            `,
-            movement: `
-                <strong>Movement Demon:</strong> Your controller or keyboard suffers more than your enemies do. Slide cancel, bunny hop, drop shot, slide cancel again... your camera moves so fast you qualify for motion sickness compensation. Enemies can't hit you simply because your character model defies basic physics and basic human rights.<br><br>
-                <em style="color: var(--accent-gold);">💬 Joke:</em> How many Movement Demons does it take to change a lightbulb? None, they'll just slide-cancel across the room and headbutt it mid-air.
-            `,
-            camping: `
-                <strong>Tactical Anchor (Camper):</strong> No, you're not camping—you're "strategically locking down a power position." Your favorite loadout attachments are a sleeping bag, a thermos of tea, and two Claymores at the door. While everyone else runs 10 miles across the map, you happily collect free kills from people who forgot to check their corners.<br><br>
-                <em style="color: var(--accent-gold);">💬 Joke:</em> How can you tell a Camper won the match? When the end-game stats congratulate them for traveling a grand total of 12 feet.
-            `
-        };
-
-        // 6. NAČÍTANIE A RENDER META KARTIEČOK
-        function renderMeta() {
-            const container = document.getElementById('meta-container');
-            if (!container) return;
-
-            let html = '';
-            metaGuns.forEach(gunName => {
-                const formattedName = gunName.replace(/[^a-zA-Z0-9]/g, '_');
-                const imgPath = `images/weapons/${formattedName}.png`;
-
-                html += `
-                    <div class="meta-card" onclick="selectMetaGun('${gunName}')">
-                        <div class="meta-title">${gunName}</div>
-                        <div class="meta-img-box">
-                            <img src="${imgPath}" alt="${gunName}" onerror="this.src='https://via.placeholder.com/300x100/141923/00c4b4?text=${encodeURIComponent(gunName)}'">
-                        </div>
-                        <div class="meta-action">Open Loadout ➔</div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-        }
-
-        // PREKLIK Z META DO LOADOUTU
-        function selectMetaGun(gunName) {
-            let foundCategory = 'ar';
-            for (const cat in weaponsDatabase) {
-                if (weaponsDatabase[cat].includes(gunName)) {
-                    foundCategory = cat;
-                    break;
-                }
-            }
-
-            const catSelect = document.getElementById('category');
-            catSelect.value = foundCategory;
-            
-            updateWeaponList();
-            document.getElementById('weapon').value = gunName;
-
-            document.getElementById('result').style.display = 'none';
-
-            switchTab('loadout');
-        }
-
-        // 7. NAČÍTANIE ZBRANÍ PODĽA KATEGÓRIE
-        function updateWeaponList() {
-            const categoryEl = document.getElementById('category');
-            const weaponSelect = document.getElementById('weapon');
-
-            if (!categoryEl || !weaponSelect) return;
-
-            const category = categoryEl.value;
-            weaponSelect.innerHTML = '';
-
-            weaponsDatabase[category].forEach(gun => {
-                const opt = document.createElement('option');
-                opt.value = gun;
-                opt.textContent = gun;
-                weaponSelect.appendChild(opt);
-            });
-
-            if (weaponSelect.options.length > 0) {
-                weaponSelect.selectedIndex = 0;
-            }
-        }
-
-        // 8. GENERUJE A VYKRESLÍ LOADOUT
-        function generateLoadout() {
-            const selectedGun = document.getElementById('weapon').value;
-            const selectedStyle = document.getElementById('style').value;
-
-            document.getElementById('w-title').innerText = selectedGun;
-            document.getElementById('w-style').innerText = selectedStyle.toUpperCase() + " BUILD";
-            
-            const formattedName = selectedGun.replace(/[^a-zA-Z0-9]/g, '_');
-            document.getElementById('w-img').src = `images/weapons/${formattedName}.png`;
-
-            let attachments = [];
-            
-            if (buildsDatabase[selectedGun] && 
-                buildsDatabase[selectedGun][selectedStyle] && 
-                buildsDatabase[selectedGun][selectedStyle].length > 0 &&
-                buildsDatabase[selectedGun][selectedStyle][0].name !== "") {
-                
-                attachments = buildsDatabase[selectedGun][selectedStyle];
-            } else {
-                attachments = [
-                    { slot: "Status", name: "Build coming soon! 🔥" }
-                ];
-            }
-
-            let html = '';
-            attachments.forEach(att => {
-                html += `
-                    <div class="att-item">
-                        <span class="att-slot">${att.slot}</span>
-                        <span class="att-name">${att.name}</span>
-                    </div>
-                `;
-            });
-
-            const resultCard = document.getElementById('result');
-            document.getElementById('att-container').innerHTML = html;
-            resultCard.style.display = 'block';
-            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        // 9. GENERUJE A VYKRESLÍ PERKY
-        function generatePerks() {
-            const selectedStyle = document.getElementById('perk-style').value;
-            document.getElementById('p-style-title').innerText = selectedStyle.toUpperCase();
-
-            const perks = perksDatabase[selectedStyle] || [];
-            let html = '';
-
-            perks.forEach(perk => {
-                let descHtml = '';
-                if (Array.isArray(perk.desc)) {
-                    descHtml = '<ul class="perk-desc-list">' + 
-                        perk.desc.map(item => `<li>• ${item}</li>`).join('') + 
-                        '</ul>';
-                } else {
-                    descHtml = `<div class="perk-desc">${perk.desc}</div>`;
-                }
-
-                html += `
-                    <div class="perk-card">
-                        <div class="perk-header">
-                            <span class="perk-name">${perk.name}</span>
-                            <span class="perk-slot">${perk.slot}</span>
-                        </div>
-                        ${descHtml}
-                    </div>
-                `;
-            });
-
-            const resultCard = document.getElementById('perk-result');
-            document.getElementById('perks-container').innerHTML = html;
-            resultCard.style.display = 'block';
-            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        // 10. GENERUJE A VYHODNOCUJE QUIZ
+        // QUIZ SYSTEM LOGIC
         function renderQuiz() {
             const container = document.getElementById('quiz-questions-container');
             if (!container) return;
 
-            let html = '';
+            container.innerHTML = "";
+
             quizQuestions.forEach((qObj, index) => {
-                html += `
+                let optionsHtml = "";
+                qObj.options.forEach((opt) => {
+                    optionsHtml += `<option value="${opt.style}">${opt.text}</option>`;
+                });
+
+                const questionHtml = `
                     <div class="quiz-question-block">
-                        <span class="quiz-q-num">Question ${index + 1} of 10</span>
+                        <span class="quiz-q-num">QUESTION ${index + 1} OF 10</span>
                         <div class="quiz-q-text">${qObj.q}</div>
                         <select id="quiz-q-${index}" onchange="checkQuizCompletion()">
-                            <option value="" disabled selected>Select your answer...</option>
-                            ${qObj.options.map(opt => `<option value="${opt.style}">${opt.text}</option>`).join('')}
+                            <option value="" disabled selected>-- Select your answer --</option>
+                            ${optionsHtml}
                         </select>
                     </div>
                 `;
+                container.innerHTML += questionHtml;
             });
-
-            container.innerHTML = html;
         }
 
         function checkQuizCompletion() {
             let allAnswered = true;
             for (let i = 0; i < quizQuestions.length; i++) {
-                const val = document.getElementById(`quiz-q-${i}`).value;
-                if (!val) {
+                const selectEl = document.getElementById(`quiz-q-${i}`);
+                if (!selectEl || !selectEl.value) {
                     allAnswered = false;
                     break;
                 }
             }
-            document.getElementById('quiz-submit-btn').disabled = !allAnswered;
+            const submitBtn = document.getElementById('quiz-submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = !allAnswered;
+            }
         }
 
         function calculateQuizResult() {
             const counts = { precision: 0, aggressive: 0, movement: 0, camping: 0 };
-            
+
             for (let i = 0; i < quizQuestions.length; i++) {
-                const selected = document.getElementById(`quiz-q-${i}`).value;
-                if (selected && counts.hasOwnProperty(selected)) {
-                    counts[selected]++;
+                const val = document.getElementById(`quiz-q-${i}`).value;
+                if (counts.hasOwnProperty(val)) {
+                    counts[val]++;
                 }
             }
 
-            let winningStyle = 'precision';
-            let maxCount = -1;
-            for (const style in counts) {
-                if (counts[style] > maxCount) {
-                    maxCount = counts[style];
+            let winningStyle = "precision";
+            let maxScore = -1;
+
+            for (let style in counts) {
+                if (counts[style] > maxScore) {
+                    maxScore = counts[style];
                     winningStyle = style;
                 }
             }
 
-            document.getElementById('q-style-title').innerText = winningStyle.toUpperCase();
-            document.getElementById('q-style-desc').innerHTML = styleDescriptions[winningStyle];
+            const styleDescriptions = {
+                precision: "You are a Tactical Sharpshooter. You value accuracy, map positioning, and calculated decision-making over reckless pushes. You thrive with weapons configured for recoil control and maximum bullet velocity.",
+                aggressive: "You are an Aggressive Entry Fragger. You lead the charge, force gunfights, and dominate close-range engagements. You need maximum fire rate, fast TTK, and instantaneous health regeneration perks.",
+                movement: "You are a Movement Specialist. You rely on rapid rotations, camera-breaking slide cancels, and unpredictable maneuvering to outplay enemies. Light builds with high mobility are your signature weapon.",
+                camping: "You are a Tactical Anchor. You prioritize zone control, fortifying power positions, and surviving until the final circle. Heavy suppressors, large magazines, and defensive perks are your key tools."
+            };
 
-            const resultCard = document.getElementById('quiz-result');
-            resultCard.style.display = 'block';
-            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.getElementById('q-style-title').innerText = winningStyle.toUpperCase();
+            document.getElementById('q-style-desc').innerText = styleDescriptions[winningStyle];
+            document.getElementById('quiz-result').style.display = 'block';
+
+            // Automaticky predvyberie víťazný štýl v záložkách Loadout a Perks
+            const loadoutStyleSelect = document.getElementById('style');
+            if (loadoutStyleSelect) loadoutStyleSelect.value = winningStyle;
+
+            const perkStyleSelect = document.getElementById('perk-style');
+            if (perkStyleSelect) perkStyleSelect.value = winningStyle;
         }
 
-        // INICIALIZÁCIA PO NAČÍTANÍ STRÁNKY
+        // INITIALIZATION
         window.onload = function() {
-            loadDailyFact();
-            renderMeta();
             updateWeaponList();
+            renderMetaCards();
             renderQuiz();
+            loadDailyFact();
         };
     </script>
 </body>
