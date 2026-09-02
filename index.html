@@ -1967,7 +1967,7 @@
     <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // navigator.serviceWorker.register('/WarHub/pwabuilder-sw.js')
+      navigator.serviceWorker.register('/WarHub/pwabuilder-sw.js')
         .then(registration => {
           console.log('ServiceWorker úspešne zaregistrovaný s rozsahom: ', registration.scope);
         })
