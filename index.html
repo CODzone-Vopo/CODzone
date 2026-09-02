@@ -200,7 +200,7 @@
         
         <!-- HEADER WITH LOGO -->
         <div class="header">
-            <img src="Warhub/images/logo.png" alt="WarHub Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
+            <img src="images/logo.png" alt="WarHub Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='block';">
             <h1 id="alt-logo" style="display:none; color: var(--accent-white); font-size: 28px;">War<span style="color: var(--accent-orange);">Hub</span></h1>
         </div>
 
@@ -1760,7 +1760,7 @@
             let html = '';
             metaGuns.forEach(gunName => {
                 const formattedName = gunName.replace(/[^a-zA-Z0-9]/g, '_');
-                const imgPath = `WarHub/images/weapons/${formattedName}.png`;
+                const imgPath = `images/weapons/${formattedName}.png`;
 
                 html += `
                     <div class="meta-card" onclick="selectMetaGun('${gunName}')">
@@ -1828,7 +1828,7 @@
             document.getElementById('w-style').innerText = selectedStyle.toUpperCase() + " BUILD";
             
             const formattedName = selectedGun.replace(/[^a-zA-Z0-9]/g, '_');
-            document.getElementById('w-img').src = `WarHub/images/weapons/${formattedName}.png`;
+            document.getElementById('w-img').src = `images/weapons/${formattedName}.png`;
 
             let attachments = [];
             
