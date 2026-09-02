@@ -1,11 +1,11 @@
 {
   "name": "WarHub",
   "short_name": "WarHub",
-  "start_url": "/",
+  "start_url": "/WarHub/",
   "display": "standalone",
   "background_color": "#0b0e14",
   "theme_color": "#0b0e14",
-  "description": "WarHub is your ultimate companion app for Call of Duty: Warzone, designed to help you optimize loadouts, analyze perks, discover your personal playstyle, and keep the frustration away when things go sideways.\n\nLevel up your Warzone experience with WarHub, the ultimate tactical web app built for operators who want to dominate every lobby. Key Features include Top Meta Weapons, Loadout Generator, Perk Setups, Find Your Style Quiz, Daily CoD Facts, and the Death Excuse Generator for those tricky gulag moments."
+  "description": "WarHub is your ultimate companion app for Call of Duty: Warzone, designed to help you optimize loadouts, analyze perks, discover your personal playstyle, and keep the frustration away when things go sideways.\n\nLevel up your Warzone experience with WarHub, the ultimate tactical web app built for operators who want to dominate every lobby. Key Features include Top Meta Weapons, Loadout Generator, Perk Setups, Find Your Style Quiz, Daily CoD Facts, and the Death Excuse Generator for those tricky gulag moments.",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -17,6 +17,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/WarHub/images/screenshot-1.jpg",
+      "sizes": "1080x1847",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "WarHub Loadout & Meta"
+    },
+    {
+      "src": "/WarHub/images/screenshot-2.jpg",
+      "sizes": "1080x2129",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Playstyle Quiz"
+    },
+    {
+      "src": "/WarHub/images/screenshot-3.jpg",
+      "sizes": "1080x2132",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Death Excuse Generator"
     }
   ]
 }
