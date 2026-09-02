@@ -266,7 +266,7 @@
 
                 <!-- Obrázok zbrane -->
                 <div class="weapon-img-box">
-                    <img id="w-img" src="" alt="Weapon Image" onerror="this.src='https://via.placeholder.com/300x100/141923/00c4b4?text=Weapon+Image'">
+                    <img id="w-img" src="" alt="Weapon Image" onerror="this.onerror=null; this.src='images/logo.png'">
                 </div>
 
                 <!-- Zoznam Attachmentov -->
@@ -1766,7 +1766,7 @@
                     <div class="meta-card" onclick="selectMetaGun('${gunName}')">
                         <div class="meta-title">${gunName}</div>
                         <div class="meta-img-box">
-                            <img src="${imgPath}" alt="${gunName}" onerror="this.src='https://via.placeholder.com/300x100/141923/00c4b4?text=${encodeURIComponent(gunName)}'">
+                            <img src="${imgPath}" alt="${gunName}" onerror="this.onerror=null; this.src='images/logo.png'">
                         </div>
                         <div class="meta-action">Open Loadout ➔</div>
                     </div>
@@ -1967,7 +1967,7 @@
     <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/WarHub/pwabuilder-sw.js')
+      // navigator.serviceWorker.register('/WarHub/pwabuilder-sw.js')
         .then(registration => {
           console.log('ServiceWorker úspešne zaregistrovaný s rozsahom: ', registration.scope);
         })
